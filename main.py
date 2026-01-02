@@ -20,8 +20,9 @@ def main():
     
     client = genai.Client(api_key=api_key)
     response = client.models.generate_content(
-    model='gemini-2.5-flash', contents=messages,
-    config=types.GenerateContentConfig(system_instruction=system_prompt)
+    model='gemini-2.5-flash', contents=messages, 
+    config=types.GenerateContentConfig(system_instruction=system_prompt),
+    temperature=0.0
     )
     print(response.text)
     if response.usage_metadata is not None and args.verbose:

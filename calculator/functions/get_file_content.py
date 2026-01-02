@@ -4,28 +4,36 @@ from dotenv import load_dotenv
 def get_file_content(working_directory, file_path):
     load_dotenv()
     max_chars = int(os.environ.get("MAX_FILE_READ_CHAR"))
-    target_path = os.path.normpath(os.path.join(working_directory, file_path))
-    #print(f"work: {os.path.abspath(working_directory)}")
-    #print(f"target: {os.path.abspath(target_path)}")
-    #print(f"path: {file_path}")
 
-    if not os.path.exists(target_path):
+    abs_working_dir = os.path.abspath(working_directory)
+    abs_file_path = os.path.normpath(os.path.join(abs_working_dir, file_path))
+    common = os.path.commonpath([abs_working_dir, abs_file_path])
+    
+    if common != abs_working_dir:
+        print(abs_file_path)
         return f'Error: Cannot read "{file_path}" as it is outside the permitted working directory'
 
-    if not os.path.isfile(target_path):
+    if not os.path.isfile(abs_file_path):
         return f'Error: File not found or is not a regular file: "{file_path}"'
 
     try:
-        content = []
         item_info = ""
-        with open(target_path, "r") as f:
+        with open(abs_file_path, "r") as f:
             read_file = f.read(max_chars)
-            item_info += f"Contents Size: {len(read_file)}"
-            content.append(item_info)
+            item_info = read_file
             if f.read(1):
-                item_info = f'...File "{file_path}" truncated at {max_chars} characters'
-                content.append(item_info)
-        return content
+                item_info += f'...File "{file_path}" truncated at {max_chars} characters'
+        return item_info
     
     except Exception as e:
         return f"Error: {e}"
+    
+    
+    #if not os.path.exists(target_path):
+        
+    #target_path = os.path.normpath(os.path.join(working_directory, file_path))
+    #print(f"work: {os.path.abspath(working_directory)}")
+    #print(f"target: {os.path.abspath(target_path)}")
+    #print(f"path: {file_path}")
+    #    print(common)
+    #    print(abs_working_dir)

@@ -8,7 +8,7 @@ def run_python_file(working_directory, file_path, args=None):
         common = os.path.commonpath([abs_working_dir, abs_file_path])
 
         if common != abs_working_dir:
-            return f'Error: Cannot read "{file_path}" as it is outside the permitted working directory'
+            return f'Error:  Cannot execute "{file_path}" as it is outside the permitted working directory'
         
         if not os.path.isfile(abs_file_path):
             return f'Error: "{file_path}" does not exist or is not a regular file'

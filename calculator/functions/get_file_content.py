@@ -10,7 +10,7 @@ def get_file_content(working_directory, file_path):
     common = os.path.commonpath([abs_working_dir, abs_file_path])
     
     if common != abs_working_dir:
-        print(abs_file_path)
+        #print(abs_file_path)
         return f'Error: Cannot read "{file_path}" as it is outside the permitted working directory'
 
     if not os.path.isfile(abs_file_path):
@@ -28,12 +28,3 @@ def get_file_content(working_directory, file_path):
     except Exception as e:
         return f"Error: {e}"
     
-    
-    #if not os.path.exists(target_path):
-        
-    #target_path = os.path.normpath(os.path.join(working_directory, file_path))
-    #print(f"work: {os.path.abspath(working_directory)}")
-    #print(f"target: {os.path.abspath(target_path)}")
-    #print(f"path: {file_path}")
-    #    print(common)
-    #    print(abs_working_dir)

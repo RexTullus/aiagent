@@ -4,7 +4,7 @@ from google import genai
 import argparse
 from google.genai import types
 from prompts import system_prompt
-from calculator.functions.call_function import available_functions
+from calculator.functions.call_function import available_functions, call_function
 
 def main():
     load_dotenv()
@@ -32,7 +32,15 @@ def main():
 
     if response.function_calls:
         for item in response.function_calls:
-            print(f"Calling function: {item.name}({item.args})")
+            function_call_result = call_function(item, args.verbose)
+            if function_call_result.parts:
+                if function_call_result.parts[0].function_response:
+                    if args.verbose:
+                        print(f"-> {function_call_result.parts[0].function_response.response}")
+                else:
+                    raise Exception("function_call_result.parts[0].function_response.response empty")
+            else:
+                 raise Exception("function_call_result.parts returned no data")
     else:
             print(response.text)
 
